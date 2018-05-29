@@ -102,12 +102,13 @@ public class ThirdPersonController: MonoBehaviour {
         // If there is a wall in front of you stop
         Ray wallRay = new Ray(transform.position + Vector3.up * _charachterController.height / 2f, transform.forward);
         if (Physics.Raycast(wallRay, _charachterController.radius * 1.7f)) {
-            _currentForwardSpeed = Mathf.Lerp(_currentForwardSpeed, 0f, Time.deltaTime * _defaultLerpMultiplyer);
+            float considerOnlyBackMotion = _verticalInput < 0f ? _verticalInput * speed : 0f;
+            _currentForwardSpeed = Mathf.Lerp(_currentForwardSpeed, considerOnlyBackMotion, Time.deltaTime * _defaultLerpMultiplyer);
         }
         else _currentForwardSpeed = Mathf.Lerp(_currentForwardSpeed, (_verticalInput * speed), Time.deltaTime * _defaultLerpMultiplyer);
 
         // Set the speed to zero if it is low
-        if (Mathf.Abs(_currentForwardSpeed) < 0.001f) _currentForwardSpeed = 0;
+        //if (Mathf.Abs(_currentForwardSpeed) < 0.001f) _currentForwardSpeed = 0;
 
 
         /*  -----  MOVING LEFT / RIGHT  -----  */
@@ -146,6 +147,8 @@ public class ThirdPersonController: MonoBehaviour {
             float calculatedHeight = _topHeadTransform.position.y - _leftFootTransform.position.y;
             _charachterController.height = calculatedHeight;
             Vector3 calculatedCenter = transform.InverseTransformPoint(_leftFootTransform.position * 0.5f + _topHeadTransform.position * 0.5f);
+            calculatedCenter.x = _initialCenterPos.x;
+            calculatedCenter.z = _initialCenterPos.z;
             _charachterController.center = calculatedCenter;
         }
 
