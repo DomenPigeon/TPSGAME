@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ContstructionType { None, Wall, Floor, Stairs}
+public enum ConstructionType { None, Wall, Floor, Stairs}
 
 public struct Construction {
     private GameObject          _gameObject;
     private Vector3             _startPoint;
     private Vector3             _endPoint;
-    private ContstructionType   _type;
+    private ConstructionType   _type;
     private int                 _gameObjectID;  
 
     public GameObject           gameObject      { get { return _gameObject; } }
     public Vector3              startPoint      { get { return _startPoint; } }
     public Vector3              endPoint        { get { return _endPoint; } }
     public int                  gameObjectID    { get { return _gameObjectID; } }
-    public ContstructionType    type            { get { return _type; } }
+    public ConstructionType    type            { get { return _type; } }
 
     public Construction(int id) {
         _gameObjectID = id;
         _gameObject = null;
         _startPoint = Vector3.zero;
         _endPoint = Vector3.zero;
-        _type = ContstructionType.None;
+        _type = ConstructionType.None;
     }
-    public Construction(GameObject gameObject, ContstructionType type) {
+    public Construction(GameObject gameObject, ConstructionType type) {
         _gameObjectID = gameObject.GetInstanceID();
         _gameObject = gameObject;
         _startPoint = Vector3.zero;
