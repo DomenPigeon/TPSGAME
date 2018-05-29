@@ -175,7 +175,7 @@ public class ThirdPersonController: MonoBehaviour {
         RaycastHit info;
 
         // Center position
-        Physics.Raycast(transform.position + halfHeight, Vector3.down, out info, 10f);
+        Physics.SphereCast(transform.position + halfHeight, _charachterController.radius, Vector3.down, out info);
         distanceFromGround = _leftFootTransform.position.y - info.point.y;
         // Forward
         Physics.Raycast(transform.position + halfHeight + transform.forward * reachMultiplyer, Vector3.down, out info, 10f);
