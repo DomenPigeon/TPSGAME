@@ -188,7 +188,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: d27e46b68ff861d429366940cc7943c2, type: 2}
     m_Threshold: 0.22222224
     m_Position: {x: 0, y: 1}
-    m_TimeScale: 2
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: forwardSpeed
     m_Mirror: 0
@@ -278,7 +278,7 @@ BlendTree:
   m_MaxThreshold: 2.4444451
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
-  m_BlendType: 2
+  m_BlendType: 3
 --- !u!1101 &1101039233419479652
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

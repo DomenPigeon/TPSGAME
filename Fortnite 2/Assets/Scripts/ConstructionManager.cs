@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ConstructionType { None, Wall, Floor, Stairs }
+
 public class ConstructionManager : MonoBehaviour {
 
     // Serialized properties

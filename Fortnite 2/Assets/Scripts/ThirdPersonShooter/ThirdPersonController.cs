@@ -108,7 +108,7 @@ public class ThirdPersonController: MonoBehaviour {
         else _currentForwardSpeed = Mathf.Lerp(_currentForwardSpeed, (_verticalInput * speed), Time.deltaTime * _defaultLerpMultiplyer);
 
         // Set the speed to zero if it is low
-        //if (Mathf.Abs(_currentForwardSpeed) < 0.001f) _currentForwardSpeed = 0;
+        if (Mathf.Abs(_currentForwardSpeed) < 0.001f) _currentForwardSpeed = 0;
 
 
         /*  -----  MOVING LEFT / RIGHT  -----  */

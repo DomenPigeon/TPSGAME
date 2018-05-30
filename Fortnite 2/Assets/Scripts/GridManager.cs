@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ConstructionType { None, Wall, Floor, Stairs}
 
 public struct Construction {
     private GameObject          _gameObject;
