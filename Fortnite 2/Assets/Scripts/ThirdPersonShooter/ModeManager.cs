@@ -16,13 +16,22 @@ public class ModeManager : MonoBehaviour {
     private Dictionary<ModeType, Mode>  _modes                  = new Dictionary<ModeType, Mode>();
     private Mode                        _currentMode            = null;
     private RaycastHit                  _cursorSensorHitInfo;
-    private Vector3                     _cursorSensorPoint   = Vector3.zero;
+    private Ray                         _cursorRay              = new Ray();
+    private Vector3                     _cursorSensorPoint      = Vector3.zero;
+    private Transform                   _environment            = null;
 
     // Public properties
     public RaycastHit   cursorSensorHitInfo { get { return _cursorSensorHitInfo; } }
-    public Vector3      cursorSensorPoint { get { return _cursorSensorPoint; } }
+    public Vector3      cursorSensorPoint   { get { return _cursorSensorPoint; } }
+    /// <summary>
+    /// Environment transform, useful to order everything with parent setting
+    /// </summary>
+    public Transform    environment         { get { return _environment; } }
 
     private void Start() {
+        GameObject environmentGameObject = GameObject.FindGameObjectWithTag("Environment");
+        _environment = environmentGameObject.transform;
+
         FetchAllModes();
 
         // Set the current mode
@@ -37,7 +46,7 @@ public class ModeManager : MonoBehaviour {
         foreach(Mode mode in modes) {
             if(mode != null && !_modes.ContainsKey(mode.GetModeType())) {
                 _modes.Add(mode.GetModeType(), mode);
-                mode.SetModeManager(this);
+                mode.SetModeManager(this, _camera);
             }
         }
     }
@@ -68,20 +77,24 @@ public class ModeManager : MonoBehaviour {
     void CursorSensor() {
         Vector3 direction = _camera.transform.forward;
         Vector3 origin = _camera.ViewportToWorldPoint(Vector3.zero) + direction * _cursorSensorMoveFromOrigin;
-        Ray ray = new Ray(origin, direction);
+        _cursorRay = new Ray(origin, direction);
 
-        Physics.Raycast(ray, out _cursorSensorHitInfo, _cursorSensorLength);
+        Physics.Raycast(_cursorRay, out _cursorSensorHitInfo, _cursorSensorLength);
         
         if (_cursorSensorHitInfo.collider == null || _cursorSensorHitInfo.collider.tag == "Construction")
             _cursorSensorPoint = origin + direction * _cursorSensorLength;
         else {
             _cursorSensorPoint = _cursorSensorHitInfo.point;
         }
+    }
 
-        Debug.DrawRay(origin, direction * _cursorSensorLength, Color.green);
-        Debug.DrawLine(Vector3.zero, _cursorSensorHitInfo.point, Color.red);
-        Debug.DrawLine(Vector3.zero, GridManager.instance.AlignToGrid(_cursorSensorHitInfo.point), Color.black);
-        Debug.Log(_cursorSensorHitInfo.point);
+    private void OnDrawGizmos() {
+        DrawCursorDirection(Color.black);
+    }
+
+    private void DrawCursorDirection(Color color) {
+        Gizmos.color = color;
+        Gizmos.DrawLine(_cursorRay.origin, _cursorRay.direction * _cursorSensorLength);
     }
 
 }

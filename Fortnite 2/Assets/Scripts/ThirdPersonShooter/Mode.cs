@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Mode : MonoBehaviour {
 
     // Protected properties
-    protected ModeManager _modeManager;
+    protected ModeManager   _modeManager;
+    protected Camera        _thirdPersonCamera;
 
     // Abtract Methods
     public abstract ModeType GetModeType();
@@ -17,5 +18,8 @@ public abstract class Mode : MonoBehaviour {
 
     // Public Method
     // Called by the parent mode machine to assign its reference
-    public void SetModeManager(ModeManager modeManager) { _modeManager = modeManager; }
+    public void SetModeManager(ModeManager modeManager, Camera thirdPersonCamera) {
+        _modeManager = modeManager;
+        _thirdPersonCamera = thirdPersonCamera;
+    }
 }
