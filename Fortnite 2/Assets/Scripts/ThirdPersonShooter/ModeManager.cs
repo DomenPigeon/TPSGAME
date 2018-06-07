@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum ModeType { Weapon, Build, Edit}
 
+[RequireComponent(typeof(ThirdPersonController))]
 public class ModeManager : MonoBehaviour {
 
     // Serialized properties
@@ -19,16 +20,19 @@ public class ModeManager : MonoBehaviour {
     private Ray                         _cursorRay              = new Ray();
     private Vector3                     _cursorSensorPoint      = Vector3.zero;
     private Transform                   _environment            = null;
+    private CharacterController         _characterController    = null;
 
     // Public properties
-    public RaycastHit   cursorSensorHitInfo { get { return _cursorSensorHitInfo; } }
-    public Vector3      cursorSensorPoint   { get { return _cursorSensorPoint; } }
+    public CharacterController      characterController { get { return _characterController; } }
+    public RaycastHit               cursorSensorHitInfo { get { return _cursorSensorHitInfo; } }
+    public Vector3                  cursorSensorPoint   { get { return _cursorSensorPoint; } }
     /// <summary>
     /// Environment transform, useful to order everything with parent setting
     /// </summary>
-    public Transform    environment         { get { return _environment; } }
+    public Transform                environment         { get { return _environment; } }
 
     private void Start() {
+        _characterController = GetComponent<CharacterController>();
         GameObject environmentGameObject = GameObject.FindGameObjectWithTag("Environment");
         _environment = environmentGameObject.transform;
 
@@ -96,5 +100,4 @@ public class ModeManager : MonoBehaviour {
         Gizmos.color = color;
         Gizmos.DrawLine(_cursorRay.origin, _cursorRay.direction * _cursorSensorLength);
     }
-
 }

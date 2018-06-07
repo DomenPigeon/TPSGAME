@@ -112,22 +112,38 @@ public class GridManager : MonoBehaviour {
 
     /// <summary>
     /// Rounds the position to fit in the grid.
+    /// Vertices are counted in counter-clock wise from first the bottom square the the top.
     /// </summary>
     /// <param name="position">Position to be aligned with the grid.</param>
+    /// <param name="verticesFaces">Which vertice or face of the cube you want to get back (zero based). Vertices 0-7, faces 8-13, 14 center of cube.</param>
     /// <returns></returns>
-    public Vector3 AlignToGrid(Vector3 position) {
+    public Vector3 AlignToGrid(Vector3 position, int verticesFaces = 0) {
         Vector3 alignedPosition = position;
-        alignedPosition.x /= _xSize;
-        alignedPosition.x = Mathf.Round(alignedPosition.x);
-        alignedPosition.x *= _xSize;
+        alignedPosition.x = Mathf.Floor(alignedPosition.x/_xSize) * _xSize;
+        alignedPosition.y = Mathf.Floor(alignedPosition.y/_xSize) * _ySize;
+        alignedPosition.z = Mathf.Floor(alignedPosition.z/_xSize) * _zSize;
 
-        alignedPosition.y /= _ySize;
-        alignedPosition.y = Mathf.Round(alignedPosition.y);
-        alignedPosition.y *= _ySize;
+        if(verticesFaces < 8) {
+            int vertices = verticesFaces;
+            int moveY = vertices > 3 ? 1 : 0;
+            int moveZ = vertices % 4 > 1 ? 1 : 0;
+            int moveX = vertices % 4 > 0 && vertices % 4 < 3 ? 1 : 0;
 
-        alignedPosition.z /= _zSize;
-        alignedPosition.z = Mathf.Round(alignedPosition.z);
-        alignedPosition.z *= _zSize;
+            alignedPosition += Vector3.right * _xSize * moveX + Vector3.forward * _zSize * moveZ + Vector3.up * _ySize * moveY;
+        }
+        else if(verticesFaces > 7 && verticesFaces < 14) {
+            int faces = verticesFaces - 8; // from 0 to 5
+            int moveY = faces == 0 ? 0 : (faces < 5 ? 1 : 2);
+            int moveX = faces % 2 == 1 || faces == 0 ? 1 : (faces == 4 ? 0 : 2);
+            int moveZ = faces % 2 == 0 || faces == 5 ? 1 : (faces == 1 ? 0 : 2);
+
+            alignedPosition += (Vector3.right * _xSize * moveX + Vector3.forward * _zSize * moveZ + Vector3.up * _ySize * moveY) * 0.5f;
+        }
+        else if(verticesFaces == 14) {
+            alignedPosition += (Vector3.right * _xSize + Vector3.forward * _zSize + Vector3.up * _ySize) * 0.5f;
+        }
+
+
 
         return alignedPosition;
     }

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class ThirdPersonCamera : MonoBehaviour {
 
+    // Serialized properties
     [Header("Charachter properties")]
-    [SerializeField] private Transform              _charachterTransform;
-    [SerializeField] private float                  _charachterHeight           = 2.0f;
-    [SerializeField] private float                  _rDistanceFromCharacter     = 2f;
-    [SerializeField] private float                  _xAxisOfCameraPosition      = 0.2f;
-    [SerializeField] private float                  _cameraHeight               = 1.6f;
-    [SerializeField] private float                  _cameraFootAngleChange      = 65.0f;
-    [SerializeField] private float                  _cameraFootAngleSmoothness  = 65.0f;
+    [SerializeField] private Transform  _charachterTransform;
+    [SerializeField] private float      _charachterHeight           = 2.0f;
+    [SerializeField] private float      _rDistanceFromCharacter     = 2f;
+    [SerializeField] private float      _xAxisOfCameraPosition      = 0.2f;
+    [SerializeField] private float      _cameraHeight               = 1.6f;
+    [SerializeField] private float      _cameraFootAngleChange      = 65.0f;
+    [SerializeField] private float      _cameraFootAngleSmoothness  = 65.0f;
 
     [Header("Other Camera properties")]
     [SerializeField] private float  _XSensitivity           = 2f;
@@ -23,10 +25,15 @@ public class ThirdPersonCamera : MonoBehaviour {
     [SerializeField] private float  _smoothTime             = 5f;
     [SerializeField] private bool   _lockCursor             = true;
 
+    // Private properties
     private Quaternion  _characterTargetRot;
     private Quaternion  _cameraTargetRot;
     private bool        _cursorIsLocked         = true;
     private float       _cameraRelativeYZAngle  = 0f;
+
+    // Public properties
+    public float clampMin { get { return _clampMin; } }
+    public float clampMax { get { return _clampMax; } }
 
     private void Start() {
         _characterTargetRot = _charachterTransform.localRotation;
