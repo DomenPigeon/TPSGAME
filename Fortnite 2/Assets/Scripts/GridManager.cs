@@ -90,9 +90,9 @@ public struct Construction {
 public class GridManager : MonoBehaviour {
 
     // Private properties
-    private float _xSize = 4.00f;
-    private float _ySize = 3.12f;
-    private float _zSize = 4.00f;
+    private float _xSize = 11.43f;
+    private float _ySize = 8.91f;
+    private float _zSize = 11.43f;
 
     // Public properties
     public float xSize { get { return _xSize; } }
